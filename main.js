@@ -1,0 +1,79 @@
+function StartGame(){
+
+	for (var i =1 ; i <=9 ; i++ ){
+		clearBox(i);
+	}
+
+	document.turn="x";
+	document.winner = null;
+	document.getElementById("dare").innerHTML="";
+	SetMessage(document.turn +"  gets to start game")
+
+}
+function NextMove(square){
+	console.log(square.innerHTML)
+	if (document.winner != null) {
+		SetMessage(document.turn + " already won")
+	}
+	else if(square.innerHTML ==""){
+	square.innerHTML=document.turn;
+	SwitchTurn();
+}
+else{
+	alert("pick a empty square") 
+}
+
+}
+function SwitchTurn(){
+	var dares = ["say my name backwards in 3 secs","tell us about your last dream","Call your best friend to dance like a crazy in your favourite song","Tell everyone an embarassing story of yours","Talk like a robot for about 1 minute","Yell like a baby until youget everyone's attention","Dance with no music for a minute","Tell me  one each thing you like and dislike in me","try to drink a glass of water whle standing on your hands","Let the group pose you in an embarassng position and take a picture"]
+
+
+	var dareno = Math.floor((Math.random() * 9) );
+	if(CheckForWinner(document.turn)){
+		document.winner = document.turn;
+		alert (document.turn +" won.");
+		document.getElementById("dare").innerHTML= "Loser has to complete this dare: " + dares[dareno] ;
+	}
+
+	else if(document.turn == "x"){
+		document.turn ="o";
+		SetMessage("its  "+ document.turn+"'s turn")
+	}
+	else{
+		document.turn = "x";}
+		SetMessage("its  "+ document.turn+"'s turn")
+}
+function SetMessage(msg){
+	document.getElementById("message").innerHTML=msg ;
+}
+
+function CheckForWinner(move){
+	var result = false;
+	if (CheckRow(1, 2, 3, move) ||
+		CheckRow(4, 5, 6, move) ||
+		CheckRow(7, 8, 9, move) ||
+		CheckRow(1, 5, 9, move) ||
+		CheckRow(1, 4, 7, move) ||
+		CheckRow(2, 5, 8, move) ||
+		CheckRow(3, 6, 9, move) ||
+		CheckRow(3, 5, 7, move)){
+		result = true;
+	}
+	console.log(result);
+	return result;
+}
+function CheckRow (a, b, c, move){
+var result = false;
+if ( GetBox(a) == move && GetBox(b) == move && GetBox(c) == move){
+	result = true;
+}
+return result;
+}
+function GetBox (number)
+{
+	 return document.getElementById("S"+number).innerHTML;
+}
+
+function clearBox (number){
+	document.getElementById("S"+number).innerHTML ="";
+}
